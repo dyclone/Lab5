@@ -136,17 +136,17 @@ public class PokerTableController {
 	@FXML
 	private void handleP2SitLeave() {		
 		int iPlayerPosition = 2;
-		handleSitLeave(bP1Sit, iPlayerPosition, lblP2Name, txtP2Name, btnP2SitLeave);
+		handleSitLeave(bP2Sit, iPlayerPosition, lblP2Name, txtP2Name, btnP2SitLeave);
 	}
 	@FXML
 	private void handleP3SitLeave() {		
 		int iPlayerPosition = 3;
-		handleSitLeave(bP1Sit, iPlayerPosition, lblP3Name, txtP3Name, btnP3SitLeave);
+		handleSitLeave(bP3Sit, iPlayerPosition, lblP3Name, txtP3Name, btnP3SitLeave);
 	}
 	@FXML
 	private void handleP4SitLeave() {		
-		int iPlayerPosition = 3;
-		handleSitLeave(bP1Sit, iPlayerPosition, lblP4Name, txtP4Name, btnP4SitLeave);
+		int iPlayerPosition = 4;
+		handleSitLeave(bP4Sit, iPlayerPosition, lblP4Name, txtP4Name, btnP4SitLeave);
 	}
 
 	private void handleSitLeave(boolean bSit, int iPlayerPosition, Label lblPlayer, TextField txtPlayer, ToggleButton btnSitLeave)
@@ -175,8 +175,24 @@ public class PokerTableController {
 		
 		// Clear all players hands
 		hBoxP1Cards.getChildren().clear();
+		hBoxP2Cards.getChildren().clear();
+		hBoxP3Cards.getChildren().clear();
+		hBoxP4Cards.getChildren().clear();
 		
 		// Get the Rule, start the Game
+	/**if(MainApp.getiGameType == 1){
+			Rule rle = new Rule(eGame.FiveStud);
+			gme = new GamePlay(rle);
+		}
+		else if (MainApp.getiGameType == 4){
+			Rule rle4 = new Rule(eGame.TexasHoldem);
+			gme = new GamePlay(rle4);
+		}
+		else if (MainApp.getiGameType == 5){
+			Rule rle5 = new Rule(eGame.Omaha);
+			gme = new GamePlay(rle5);
+		}
+		**/
 		Rule rle = new Rule(eGame.FiveStud);
 		gme = new GamePlay(rle);
 
@@ -201,7 +217,22 @@ public class PokerTableController {
 		for (int i = 0; i < gme.getNbrOfCards(); i++) {
 			ImageView img = new ImageView(new Image(getClass().getResourceAsStream(strCard), 75, 75, true, true));
 
-			hBoxP1Cards.getChildren().add(img);
+			if (p.getiPlayerPosition() == 1){
+				hBoxP1Cards.getChildren().add(img);
+				}
+			else if (p.getiPlayerPosition() == 2){
+				hBoxP2Cards.getChildren().add(img);
+					}
+			else if (p.getiPlayerPosition() == 3){
+				hBoxP3Cards.getChildren().add(img);
+					}
+			else if (p.getiPlayerPosition() == 4){
+				hBoxP4Cards.getChildren().add(img);
+					}
+			else{
+				return;
+			}
+			
 		}
 
 		ImageView imgBottomCard = new ImageView(
@@ -227,7 +258,23 @@ public class PokerTableController {
 			if (p.getiPlayerPosition() == 1) {
 				GamePlayPlayerHand GPPH = gme.FindPlayerGame(gme, p);
 				GPPH.addCardToHand(c);
-
+			}
+				
+			else if (p.getiPlayerPosition() == 2) {
+				GamePlayPlayerHand GPPH = gme.FindPlayerGame(gme, p);
+				GPPH.addCardToHand(c);
+			}
+			
+			else if (p.getiPlayerPosition() == 3) {
+				GamePlayPlayerHand GPPH = gme.FindPlayerGame(gme, p);
+				GPPH.addCardToHand(c);
+			}
+			
+			else if (p.getiPlayerPosition() == 4) {
+				GamePlayPlayerHand GPPH = gme.FindPlayerGame(gme, p);
+				GPPH.addCardToHand(c);	
+			}
+			
 				//	This is the card that is going to be dealt to the player.
 				String strCard = "/res/img/" + c.getCardImg();
 				ImageView imgvCardDealt = new ImageView(new Image(getClass().getResourceAsStream(strCard), 96, 71, true, true));
@@ -277,7 +324,7 @@ public class PokerTableController {
 					System.out.println(GPPH.getHand().getHandStrength());
 				}
 			}
-		}
+
 
 		if (iCardDrawn == 5) {
 
